@@ -1,9 +1,10 @@
 # 🔍 CD Thread Scraper
 
-**Chief Delphi forum thread'lerini otomatik olarak çekip, LLM'ler için hazır prompt formatına dönüştüren web uygulaması.**
+**Automatically scrape Chief Delphi forum threads and convert them into LLM-ready prompts.**
 
-> Chief Delphi linkini yapıştır → Tüm mesajları çek → LLM-ready prompt al. Bu kadar.
+> Paste a Chief Delphi link → Fetch all posts → Get a ready-to-use LLM prompt. That's it.
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-chiefdelphiscraper.netlify.app-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://chiefdelphiscraper.netlify.app)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
@@ -12,136 +13,138 @@
 
 ---
 
-## ✨ Özellikler
+## ✨ Features
 
-- 🔗 **URL'den Otomatik Çekme** — Herhangi bir Chief Delphi thread linkini yapıştırın, tüm mesajlar otomatik çekilir
-- 📄 **Markdown Dönüşümü** — HTML içerik temiz Markdown'a dönüştürülür (yazar isimleri, tarihler, alıntılar, reaksiyonlar dahil)
-- 🤖 **LLM Prompt Üretimi** — Hazır kopyala-yapıştır prompt: bağlam + analiz talimatları + tüm thread içeriği
-- 🌍 **Çift Dil** — Türkçe ve İngilizce prompt desteği
-- 📊 **İstatistikler** — Mesaj sayısı, yazar sayısı, karakter ve tahmini token bilgisi
-- 📋 **Kopyala & İndir** — Tek tıkla panoya kopyalama veya `.txt` / `.md` olarak indirme
-- 🔄 **Tam Pagination** — Discourse API üzerinden 20'şerli batch'lerle tüm mesajları çeker
-- 🎨 **Modern UI** — Dark tema, glassmorphism, gradient animasyonlar, responsive tasarım
+- 🔗 **Auto-Fetch from URL** — Paste any Chief Delphi thread link, all posts are fetched automatically
+- 📄 **Markdown Conversion** — HTML content is converted to clean Markdown (author names, dates, quotes, reactions included)
+- 🤖 **LLM Prompt Generation** — Ready-to-paste prompt with context + analysis instructions + full thread content
+- 🌍 **Bilingual Prompts** — Turkish and English prompt support
+- 📊 **Statistics** — Post count, author count, character count, and estimated token count
+- 📋 **Copy & Download** — One-click clipboard copy or download as `.txt` / `.md`
+- 🔄 **Full Pagination** — Fetches all posts in batches of 20 via the Discourse API
+- 🎨 **Modern UI** — Dark theme, glassmorphism, gradient animations, responsive design
 
-## 🚀 Kullanım
+## 🚀 Live Demo
 
-### Online
-Netlify'da deploy edildiyse, doğrudan site URL'sini açın.
+**👉 [chiefdelphiscraper.netlify.app](https://chiefdelphiscraper.netlify.app)**
 
-### Lokal Geliştirme
+## 📖 Usage
 
-```bash
-# Repoyu klonlayın
-git clone https://github.com/KeremAlperBatal/ChiefDelphiScraper.git
-cd ChiefDelphiScraper
-
-# Local sunucuyu başlatın (proxy dahil)
-node server.js
-```
-
-Tarayıcıda **http://localhost:3000** adresini açın.
-
-### Nasıl Çalışır?
-
-1. Chief Delphi thread URL'sini yapıştırın
+1. Paste a Chief Delphi thread URL
    ```
    https://www.chiefdelphi.com/t/thread-slug/123456
    ```
-2. (Opsiyonel) Maksimum mesaj sayısı girin
-3. Prompt dilini seçin (Türkçe / English)
-4. **"Thread'i Çek ve Dönüştür"** butonuna basın
-5. Çıktıyı kopyalayın veya indirin, direkt LLM'e yapıştırın
+2. (Optional) Set a maximum post count
+3. Choose prompt language (Türkçe / English)
+4. Click **"Thread'i Çek ve Dönüştür"**
+5. Copy the output or download it, then paste it directly into your favorite LLM
 
-## 📂 Proje Yapısı
+## 🛠️ Local Development
+
+```bash
+# Clone the repo
+git clone https://github.com/KeremAlperBatal/ChiefDelphiScraper.git
+cd ChiefDelphiScraper
+
+# Start the local server (includes CORS proxy)
+node server.js
+```
+
+Open **http://localhost:3000** in your browser.
+
+## 📂 Project Structure
 
 ```
 ChiefDelphiScraper/
-├── public/                  # Statik dosyalar (Netlify tarafından sunulur)
-│   ├── index.html           # Ana sayfa
-│   ├── style.css            # Stiller
-│   └── app.js               # Frontend mantığı
+├── public/                  # Static files (served by Netlify)
+│   ├── index.html           # Main page
+│   ├── style.css            # Styles
+│   └── app.js               # Frontend logic
 ├── netlify/
 │   └── functions/
 │       └── proxy.js         # Serverless CORS proxy (Netlify Functions)
-├── server.js                # Local geliştirme sunucusu (proxy dahil)
-├── netlify.toml             # Netlify yapılandırması
+├── server.js                # Local dev server (with built-in proxy)
+├── netlify.toml             # Netlify configuration
 └── README.md
 ```
 
-## 🛠️ Teknik Detaylar
+## ⚙️ Technical Details
 
-### Neden Proxy Gerekli?
-Chief Delphi (Discourse) API'si tarayıcıdan gelen cross-origin istekleri CORS ile engelliyor. Bu yüzden:
-- **Lokal:** `server.js` basit bir Node.js HTTP proxy olarak çalışır
-- **Production:** Netlify Functions serverless proxy olarak görev yapar
+### Why is a Proxy Needed?
+The Chief Delphi (Discourse) API blocks cross-origin browser requests via CORS. To work around this:
+- **Local:** `server.js` runs a simple Node.js HTTP proxy
+- **Production:** A Netlify Function acts as a serverless proxy
 
 ### Discourse API
-Chief Delphi, [Discourse](https://www.discourse.org/) tabanlı bir forum. Uygulama şu endpoint'leri kullanır:
-- `GET /t/{topic_id}.json` — Topic bilgileri + ilk batch mesajlar
-- `GET /t/{topic_id}/posts.json?post_ids[]=...` — Belirli post ID'leri ile ek mesajlar
+Chief Delphi is built on [Discourse](https://www.discourse.org/). The app uses these endpoints:
+- `GET /t/{topic_id}.json` — Topic info + first batch of posts
+- `GET /t/{topic_id}/posts.json?post_ids[]=...` — Additional posts by ID
 
-### HTML → Markdown Dönüşümü
-Discourse'un `cooked` (HTML) içeriği şu şekilde işlenir:
-- Discourse alıntı blokları → Markdown blockquote
-- HTML başlıklar, listeler, linkler → Markdown karşılıkları
-- Emoji görselleri → `:emoji:` formatı
-- Gereksiz HTML etiketleri temizlenir
+### HTML → Markdown Conversion
+Discourse's `cooked` HTML content is processed as follows:
+- Discourse quote blocks → Markdown blockquotes with author attribution
+- HTML headings, lists, links → Markdown equivalents
+- Emoji images → `:emoji:` text format
+- Unnecessary HTML tags are stripped
 
-## 🌐 Netlify'a Deploy
+## 🌐 Deploy to Netlify
 
-1. Bu repoyu fork'layın veya kendi GitHub hesabınıza push'layın
-2. [app.netlify.com](https://app.netlify.com) → **Add new site** → **Import an existing project**
-3. GitHub'ı bağlayın → repoyu seçin
-4. Build ayarları `netlify.toml` ile otomatik gelir — **Deploy** butonuna basın
-5. ~30 saniye içinde siteniz `https://ISIM.netlify.app` adresinde canlı olur
+1. Fork this repo or push it to your own GitHub account
+2. Go to [app.netlify.com](https://app.netlify.com) → **Add new site** → **Import an existing project**
+3. Connect GitHub → select the repo
+4. Build settings are auto-configured via `netlify.toml` — just click **Deploy**
+5. Your site will be live at `https://YOUR-SITE.netlify.app` within ~30 seconds
 
-## 📄 Çıktı Formatı
+## 📄 Output Format
 
-### LLM Prompt Çıktısı (örnek)
+### Example LLM Prompt Output
 ```
-Aşağıda Chief Delphi forumundan bir tartışma thread'inin tüm mesajları
-yer almaktadır.
+Below is the complete content of a discussion thread from Chief Delphi
+(the largest forum for the FIRST Robotics Competition community).
 
-**Thread Başlığı:** Lowering the Barrier to Code: AI's Role in FRC Robotics
+**Thread Title:** Lowering the Barrier to Code: AI's Role in FRC Robotics
 **URL:** https://www.chiefdelphi.com/t/.../503634
-**Toplam Mesaj Sayısı:** 47
-**Katılımcı Sayısı:** 35
+**Total Posts:** 47
+**Number of Participants:** 35
 
-Lütfen bu Chief Delphi thread'ini dikkatlice oku, analiz et ve özetle...
+Please carefully read, analyze, and comprehensively summarize this
+Chief Delphi thread...
 
 ---
 
-# THREAD İÇERİĞİ BAŞLANGIÇ
+# THREAD CONTENT START
 
-## Mesaj #1 — Sebastian Hondl (@SethHondl)
-*📅 25.06.2025, 22:45 | 🏷️ 2017 | ❤️×4 👎×7*
+## Post #1 — Sebastian Hondl (@SethHondl)
+*📅 6/25/2025, 10:45 PM | 🏷️ 2017 | ❤️×4 👎×7*
 
 I'm a mechanical engineering student at the University of Minnesota...
 
 ---
 
-## Mesaj #2 — Josh P (@BigJ)
+## Post #2 — Josh P (@BigJ)
 ...
+
+# THREAD CONTENT END
 ```
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-Pull request'ler açıktır! Özellikle şu alanlarda katkıya açığız:
-- Daha iyi HTML → Markdown dönüşümü
-- Ek dil desteği
-- UI/UX iyileştirmeleri
-- Farklı Discourse forumları için destek
+Pull requests are welcome! Contributions are especially appreciated in:
+- Improved HTML → Markdown conversion
+- Additional language support
+- UI/UX improvements
+- Support for other Discourse-based forums
 
-## 📝 Lisans
+## 📝 License
 
-MIT License — dilediğiniz gibi kullanabilirsiniz.
+MIT License — use it however you like.
 
 ---
 
 <div align="center">
 
-**[FIRST Robotics Competition](https://www.firstinspires.org/robotics/frc)** topluluğu için ❤️ ile yapılmıştır.
+Made with ❤️ for the **[FIRST Robotics Competition](https://www.firstinspires.org/robotics/frc)** community.
 
-*Chief Delphi ile resmi bir bağlantısı yoktur.*
+*Not officially affiliated with Chief Delphi.*
 
 </div>
